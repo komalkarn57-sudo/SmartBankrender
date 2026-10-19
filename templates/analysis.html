@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Transaction Analysis - SmartBank</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <div class="logo">
+        SmartBank
+    </div>
+
+    <nav>
+
+        <a href="/dashboard">
+            Dashboard
+        </a>
+
+        <a href="/logout">
+            Logout
+        </a>
+
+    </nav>
+
+</header>
+
+
+<main class="dashboard">
+
+    <div class="dashboard-header">
+
+        <div>
+
+            <h1>
+                Transaction Analysis
+            </h1>
+
+            <p>
+                Analysis using Pandas and NumPy
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="dashboard-cards">
+
+        <div class="dashboard-card">
+
+            <h3>Total Transactions</h3>
+
+            <h2>
+                {{ total_transactions }}
+            </h2>
+
+        </div>
+
+
+        <div class="dashboard-card">
+
+            <h3>Total Deposits</h3>
+
+            <h2>
+                ₹{{ "%.2f"|format(total_deposit) }}
+            </h2>
+
+        </div>
+
+
+        <div class="dashboard-card">
+
+            <h3>Total Withdrawals</h3>
+
+            <h2>
+                ₹{{ "%.2f"|format(total_withdrawal) }}
+            </h2>
+
+        </div>
+
+
+        <div class="dashboard-card">
+
+            <h3>Total Transfers</h3>
+
+            <h2>
+                ₹{{ "%.2f"|format(total_transfer) }}
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    <section class="dashboard-section">
+
+        <h2>
+            Statistical Analysis
+        </h2>
+
+        <div class="account-info">
+
+            <div>
+
+                <strong>
+                    Average Transaction
+                </strong>
+
+                <p>
+                    ₹{{ "%.2f"|format(average_transaction) }}
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <strong>
+                    Highest Transaction
+                </strong>
+
+                <p>
+                    ₹{{ "%.2f"|format(highest_transaction) }}
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <strong>
+                    Lowest Transaction
+                </strong>
+
+                <p>
+                    ₹{{ "%.2f"|format(lowest_transaction) }}
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <strong>
+                    Standard Deviation
+                </strong>
+
+                <p>
+                    ₹{{ "%.2f"|format(standard_deviation) }}
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="dashboard-section">
+
+        <h2>
+            Transaction Details
+        </h2>
+
+        {% if transactions %}
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Date</th>
+
+                        <th>Type</th>
+
+                        <th>Amount</th>
+
+                        <th>Description</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for transaction in transactions %}
+
+                    <tr>
+
+                        <td>
+                            {{ transaction.created_at }}
+                        </td>
+
+                        <td>
+                            {{ transaction.transaction_type }}
+                        </td>
+
+                        <td>
+                            ₹{{ "%.2f"|format(transaction.amount) }}
+                        </td>
+
+                        <td>
+                            {{ transaction.description or "-" }}
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        {% else %}
+
+        <div class="no-transactions">
+
+            <p>
+                No transactions available for analysis.
+            </p>
+
+        </div>
+
+        {% endif %}
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    <div class="footer-content">
+
+        <h3>SmartBank</h3>
+
+        <p>
+            Simple banking designed around your life.
+        </p>
+
+    </div>
+
+</footer>
+
+</body>
+
+</html>

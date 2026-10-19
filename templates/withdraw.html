@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Withdraw Money - SmartBank</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <div class="logo">
+        SmartBank
+    </div>
+
+    <nav>
+
+        <a href="/dashboard">Dashboard</a>
+
+        <a href="/logout">Logout</a>
+
+    </nav>
+
+</header>
+
+
+<main class="form-section">
+
+    <div class="form-container">
+
+        <h2>Withdraw Money</h2>
+
+        <p>
+            Current Balance:
+            <strong>₹{{ "%.2f"|format(user.balance) }}</strong>
+        </p>
+
+        <form action="/withdraw" method="POST">
+
+            <div class="form-group">
+
+                <label for="amount">
+                    Withdrawal Amount
+                </label>
+
+                <input
+                    type="number"
+                    id="amount"
+                    name="amount"
+                    placeholder="Enter amount"
+                    min="1"
+                    step="0.01"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="description">
+                    Description
+                </label>
+
+                <input
+                    type="text"
+                    id="description"
+                    name="description"
+                    placeholder="Example: Cash withdrawal"
+                    maxlength="255"
+                >
+
+            </div>
+
+
+            <button type="submit" class="form-button">
+                Withdraw Money
+            </button>
+
+        </form>
+
+
+        <p class="form-link">
+
+            <a href="/dashboard">
+                ← Back to Dashboard
+            </a>
+
+        </p>
+
+    </div>
+
+</main>
+
+
+<footer>
+
+    <div class="footer-content">
+
+        <h3>SmartBank</h3>
+
+        <p>
+            Simple banking designed around your life.
+        </p>
+
+    </div>
+
+</footer>
+
+</body>
+
+</html>

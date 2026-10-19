@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SmartBank Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <header class="navbar">
+
+        <div class="logo">
+            SmartBank
+        </div>
+
+        <nav>
+
+            <a href="/dashboard">
+                Dashboard
+            </a>
+
+            <a href="/logout">
+                Logout
+            </a>
+
+        </nav>
+
+    </header>
+
+
+    <!-- ================= DASHBOARD ================= -->
+
+    <main class="dashboard">
+
+        <!-- Welcome -->
+
+        <div class="dashboard-header">
+
+            <div>
+
+                <h1>
+                    Welcome, {{ user.full_name }}
+                </h1>
+
+                <p>
+                    Account Number:
+                    <strong>{{ user.account_number }}</strong>
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= BALANCE ================= -->
+
+        <div class="dashboard-cards">
+
+            <div class="dashboard-card balance-card">
+
+                <h3>
+                    Available Balance
+                </h3>
+
+                <h2>
+                    ₹{{ "%.2f"|format(user.balance) }}
+                </h2>
+
+            </div>
+
+
+            <div class="dashboard-card">
+
+                <h3>
+                    Account Holder
+                </h3>
+
+                <p>
+                    {{ user.full_name }}
+                </p>
+
+            </div>
+
+
+            <div class="dashboard-card">
+
+                <h3>
+                    Email
+                </h3>
+
+                <p>
+                    {{ user.email }}
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= QUICK ACTIONS ================= -->
+
+        <section class="dashboard-section">
+
+            <h2>
+                Quick Actions
+            </h2>
+
+
+            <div class="quick-actions">
+
+
+                <!-- DEPOSIT -->
+
+                <a href="/deposit" class="action-card">
+
+                    <span class="action-icon">
+                        💰
+                    </span>
+
+                    <div>
+
+                        <h3>
+                            Deposit
+                        </h3>
+
+                        <p>
+                            Add money to your account
+                        </p>
+
+                    </div>
+
+                </a>
+
+
+                <!-- WITHDRAW -->
+
+                <a href="/withdraw" class="action-card">
+
+                    <span class="action-icon">
+                        💵
+                    </span>
+
+                    <div>
+
+                        <h3>
+                            Withdraw
+                        </h3>
+
+                        <p>
+                            Withdraw money from your account
+                        </p>
+
+                    </div>
+
+                </a>
+
+
+                <!-- TRANSFER -->
+
+                <a href="/transfer" class="action-card">
+
+                    <span class="action-icon">
+                        🔄
+                    </span>
+
+                    <div>
+
+                        <h3>
+                            Transfer
+                        </h3>
+
+                        <p>
+                            Transfer money to another account
+                        </p>
+
+                    </div>
+
+                </a>
+
+
+                <!-- ANALYSIS -->
+
+                <a href="/analysis" class="action-card">
+
+                    <span class="action-icon">
+                        📊
+                    </span>
+
+                    <div>
+
+                        <h3>
+                            Analysis
+                        </h3>
+
+                        <p>
+                            Analyze your transactions
+                        </p>
+
+                    </div>
+
+                </a>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= RECENT TRANSACTIONS ================= -->
+
+        <section class="dashboard-section">
+
+            <div class="section-heading">
+
+                <h2>
+                    Recent Transactions
+                </h2>
+
+            </div>
+
+
+            {% if transactions %}
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Date
+                            </th>
+
+                            <th>
+                                Type
+                            </th>
+
+                            <th>
+                                Amount
+                            </th>
+
+                            <th>
+                                Description
+                            </th>
+
+                            <th>
+                                Balance After
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for transaction in transactions %}
+
+                        <tr>
+
+                            <td>
+                                {{ transaction.created_at }}
+                            </td>
+
+                            <td>
+                                {{ transaction.transaction_type }}
+                            </td>
+
+                            <td>
+                                ₹{{ "%.2f"|format(transaction.amount) }}
+                            </td>
+
+                            <td>
+                                {{ transaction.description or "-" }}
+                            </td>
+
+                            <td>
+                                ₹{{ "%.2f"|format(transaction.balance_after or 0) }}
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+            <div class="no-transactions">
+
+                <p>
+                    No transactions yet.
+                </p>
+
+            </div>
+
+            {% endif %}
+
+        </section>
+
+
+        <!-- ================= ACCOUNT INFORMATION ================= -->
+
+        <section class="dashboard-section">
+
+            <h2>
+                Account Information
+            </h2>
+
+
+            <div class="account-info">
+
+                <div>
+
+                    <strong>
+                        Full Name
+                    </strong>
+
+                    <p>
+                        {{ user.full_name }}
+                    </p>
+
+                </div>
+
+
+                <div>
+
+                    <strong>
+                        Phone
+                    </strong>
+
+                    <p>
+                        {{ user.phone }}
+                    </p>
+
+                </div>
+
+
+                <div>
+
+                    <strong>
+                        Email
+                    </strong>
+
+                    <p>
+                        {{ user.email }}
+                    </p>
+
+                </div>
+
+
+                <div>
+
+                    <strong>
+                        Date of Birth
+                    </strong>
+
+                    <p>
+                        {{ user.date_of_birth or "-" }}
+                    </p>
+
+                </div>
+
+
+                <div>
+
+                    <strong>
+                        Address
+                    </strong>
+
+                    <p>
+                        {{ user.address or "-" }}
+                    </p>
+
+                </div>
+
+
+                <div>
+
+                    <strong>
+                        Account Created
+                    </strong>
+
+                    <p>
+                        {{ user.created_at }}
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <div class="footer-content">
+
+            <h3>
+                SmartBank
+            </h3>
+
+            <p>
+                Simple banking designed around your life.
+            </p>
+
+        </div>
+
+        <div class="footer-bottom">
+
+            <p>
+                © 2026 SmartBank. Student Project.
+            </p>
+
+        </div>
+
+    </footer>
+
+
+</body>
+
+</html>
